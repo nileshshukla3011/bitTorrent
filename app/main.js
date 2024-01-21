@@ -11,7 +11,16 @@ function decodeBencode(bencodedValue) {
     if (firstColonIndex === -1) {
       throw new Error("Invalid encoded value");
     }
-    return bencodedValue.substr(firstColonIndex + 1);
+    return bencodedValue.substr(
+      firstColonIndex + 1,
+      parseInt(bencodedValue[0])
+    );
+  } else if (
+    bencodedValue[0] === "i" &&
+    bencodedValue[bencodedValue.length - 1] === "e"
+  ) {
+    const intValue = bencodedValue.indexOf("i") + 1;
+    return bencodedValue[intValue];
   } else {
     throw new Error("Only strings are supported at the moment");
   }
